@@ -1,5 +1,6 @@
 package com.example.smartsurveysystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,5 +38,6 @@ public class Questionnaire {
 
     // 问卷与回复：一对多关系
     @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore // 避免JSON序列化时的循环引用，前端不需要responses数据
     private List<UserResponse> responses;
 }

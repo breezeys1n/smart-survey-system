@@ -1,5 +1,6 @@
 package com.example.smartsurveysystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questionnaire_id", nullable = false)
+    @JsonIgnore // 避免JSON序列化时的循环引用
     private Questionnaire questionnaire; // 所属问卷的外键
 
     @Column(nullable = false)

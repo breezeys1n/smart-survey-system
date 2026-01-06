@@ -27,9 +27,25 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     @Override
+    @Transactional(readOnly = true) // 开启只读事务，确保懒加载关联数据
     public Questionnaire getFullQuestionnaire(Long id) {
-        // JPA 的关联查询会自动加载该问卷下的题目和选项
-        return questionnaireRepository.findById(id).orElseThrow(() -> new RuntimeException("问卷不存在"));
+        // 查找问卷
+        Questionnaire questionnaire = questionnaireRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("问卷不存在"));
+        
+        // 手动触发懒加载：访问questions集合以触发加载
+        if (questionnaire.getQuestions() != null) {
+            questionnaire.getQuestions().size(); // 触发questions的加载
+            
+            // 触发每个问题的options加载
+            for (Question question : questionnaire.getQuestions()) {
+                if (question.getOptions() != null) {
+                    question.getOptions().size(); // 触发options的加载
+                }
+            }
+        }
+        
+        return questionnaire;
     }
 
     @Override
