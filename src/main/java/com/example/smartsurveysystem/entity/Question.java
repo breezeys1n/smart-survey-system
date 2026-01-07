@@ -33,6 +33,9 @@ public class Question {
 
     private Integer questionOrder; // 问题在问卷中的顺序
 
+    // 逻辑跳转规则（JSON格式存储）
+    @Lob
+    private String jumpLogic;
     // 问题与选项：一对多关系 (适用于单选和多选)
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Option> options;
