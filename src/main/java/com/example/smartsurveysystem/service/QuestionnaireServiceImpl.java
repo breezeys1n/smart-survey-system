@@ -7,11 +7,12 @@ import com.example.smartsurveysystem.dto.QuestionDTO;
 import com.example.smartsurveysystem.dto.QuestionnaireDTO;
 import com.example.smartsurveysystem.entity.*;
 import com.example.smartsurveysystem.repository.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tools.jackson.core.type.TypeReference;
-import tools.jackson.databind.ObjectMapper;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -70,8 +71,6 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         if (dto.getJumpRules() != null && !dto.getJumpRules().isEmpty()) {
 
             ObjectMapper mapper = new ObjectMapper();
-            String jumpLogic = mapper.writeValueAsString(dto.getJumpRules());
-            question.setJumpLogic(jumpLogic);
 
         }
 
